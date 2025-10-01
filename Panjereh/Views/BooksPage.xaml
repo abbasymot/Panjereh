@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Panjereh.ViewModels"
+             x:Class="Panjereh.Views.BooksPage"
+             Title="Books">
+
+    <ContentPage.BindingContext>
+        <vm:BooksViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+
+            <!-- Title -->
+            <Entry Placeholder="Book Title" Text="{Binding NewBookTitle}" />
+
+            <!-- Category -->
+            <Picker Title="Category" ItemsSource="{Binding Categories}"
+                    SelectedItem="{Binding SelectedCategory}" />
+
+            <!-- Status -->
+            <Picker Title="Status" ItemsSource="{Binding Statuses}"
+                    SelectedItem="{Binding SelectedStatus}" />
+
+            <!-- Personal Note -->
+            <Editor Placeholder="Personal Note" Text="{Binding PersonalNote}" AutoSize="TextChanges" />
+
+            <!-- Thumbnail -->
+            <Button Text="Select Thumbnail" Clicked="OnSelectThumbnailClicked"/>
+            <Image Source="{Binding ThumbnailPath}" HeightRequest="100" />
+
+            <!-- Add Book -->
+            <Button Text="Add Book" Command="{Binding AddBookCommand}" />
+
+            <!-- Books List -->
+            <CollectionView ItemsSource="{Binding Books}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <HorizontalStackLayout Spacing="10" Padding="5">
+                            <Image Source="{Binding Thumbnail}" HeightRequest="50" WidthRequest="50" />
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Title}" FontAttributes="Bold" />
+                                <Label Text="{Binding Category}" FontSize="12" />
+                                <Label Text="{Binding Status}" FontSize="12" />
+                            </VerticalStackLayout>
+                            <Button Text="Delete" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BooksViewModel}}, Path=DeleteBookCommand}" CommandParameter="{Binding .}" />
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
