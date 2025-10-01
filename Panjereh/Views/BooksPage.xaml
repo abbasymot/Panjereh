@@ -3,52 +3,66 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Panjereh.ViewModels"
              x:Class="Panjereh.Views.BooksPage"
-             Title="Books">
+             Title="Books"
+             BackgroundColor="#FFF8F0">
 
     <ContentPage.BindingContext>
         <vm:BooksViewModel />
     </ContentPage.BindingContext>
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="10">
+        <VerticalStackLayout Padding="5" Spacing="10">
 
-            <!-- Title -->
-            <Entry Placeholder="Book Title" Text="{Binding NewBookTitle}" />
+            <Frame HasShadow="True" CornerRadius="15" WidthRequest="750" Padding="10" BackgroundColor="#FFF8F0">
+                <VerticalStackLayout Spacing="8">
 
-            <!-- Category -->
-            <Picker Title="Category" ItemsSource="{Binding Categories}"
-                    SelectedItem="{Binding SelectedCategory}" />
+                    <Entry BackgroundColor="LightGrey" Placeholder="عنوان کتاب" FontSize="12" TextColor="Black" Text="{Binding NewBookTitle}" />
 
-            <!-- Status -->
-            <Picker Title="Status" ItemsSource="{Binding Statuses}"
-                    SelectedItem="{Binding SelectedStatus}" />
+                    <HorizontalStackLayout Spacing="150">
+                        <Picker BackgroundColor="LightGrey" Title="دسته بندی" FontSize="12" TextColor="Black" ItemsSource="{Binding Categories}"
+                            SelectedItem="{Binding SelectedCategory}" HorizontalOptions="FillAndExpand"/>
 
-            <!-- Personal Note -->
-            <Editor Placeholder="Personal Note" Text="{Binding PersonalNote}" AutoSize="TextChanges" />
+                        <Picker BackgroundColor="LightGrey" Title="وضعیت" FontSize="12" TextColor="Black" ItemsSource="{Binding Statuses}"
+                            SelectedItem="{Binding SelectedStatus}" HorizontalOptions="FillAndExpand"/>
+                    </HorizontalStackLayout>
 
-            <!-- Thumbnail -->
-            <Button Text="Select Thumbnail" Clicked="OnSelectThumbnailClicked"/>
-            <Image Source="{Binding ThumbnailPath}" HeightRequest="100" />
+                    <Editor BackgroundColor="LightGrey" Placeholder="توضیحات شخصی" FontSize="12" TextColor="Black" Text="{Binding PersonalNote}" AutoSize="TextChanges" HeightRequest="100"/>
 
-            <!-- Add Book -->
-            <Button Text="Add Book" Command="{Binding AddBookCommand}" />
+                    <HorizontalStackLayout Spacing="10">
+                        <Button Text="تصویر" WidthRequest="100" HeightRequest="30" TextColor="Black" Clicked="OnSelectThumbnailClicked"/>
+                        <Image BackgroundColor="LightGrey" Source="{Binding ThumbnailPath}" HeightRequest="80" WidthRequest="50" Aspect="AspectFill"/>
 
-            <!-- Books List -->
+                        <Button Text="اضافه کن" HeightRequest="30" Command="{Binding AddBookCommand}"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+
+
             <CollectionView ItemsSource="{Binding Books}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="6" />
+                </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <HorizontalStackLayout Spacing="10" Padding="5">
-                            <Image Source="{Binding Thumbnail}" HeightRequest="50" WidthRequest="50" />
-                            <VerticalStackLayout>
-                                <Label Text="{Binding Title}" FontAttributes="Bold" />
-                                <Label Text="{Binding Category}" FontSize="12" />
-                                <Label Text="{Binding Status}" FontSize="12" />
+                        <Frame HasShadow="True" CornerRadius="10" Padding="5" BackgroundColor="#FFF8F0">
+                            <VerticalStackLayout Spacing="5" HorizontalOptions="Center" WidthRequest="220">
+                                <Image Source="{Binding Thumbnail}" HeightRequest="250" WidthRequest="200" Aspect="AspectFill"/>
+                                <Label TextColor="Black" Text="{Binding Title}" 
+                           FontAttributes="Bold" FontSize="14" HorizontalOptions="Center"/>
+                                <Label TextColor="Black" Text="{Binding Category}" FontSize="12" HorizontalOptions="Center"/>
+                                <Label TextColor="Black" Text="{Binding Status}" FontSize="12" HorizontalOptions="Center"/>
+                                <Button Text="حذف" 
+                            BackgroundColor="#CC0000" TextColor="White"
+                            FontSize="10" HeightRequest="25"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BooksViewModel}}, Path=DeleteBookCommand}" 
+                            CommandParameter="{Binding .}" />
                             </VerticalStackLayout>
-                            <Button Text="Delete" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BooksViewModel}}, Path=DeleteBookCommand}" CommandParameter="{Binding .}" />
-                        </HorizontalStackLayout>
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
 
         </VerticalStackLayout>
     </ScrollView>
