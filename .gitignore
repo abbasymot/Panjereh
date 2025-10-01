@@ -361,3 +361,46 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# added
+
+
+# Build folders
+bin/
+obj/
+
+# User files
+*.user
+*.suo
+*.cache
+
+# SQLite database
+*.db
+*.sqlite
+
+# IDE settings
+.vscode/
+.idea/
+
+# Environment and secrets
+secrets.json
+.env
+
+# Logs
+*.log
+
+# Mac files
+.DS_Store
+
+# Android / iOS build outputs
+*.apk
+*.ipa
+*.dSYM/
+
+# NuGet packages
+*.nupkg
+packages/
+
+# Temporary files
+*.tmp
+*.backup
